@@ -16,7 +16,7 @@ async function tmdbAPI(endpoint,param = {}){ //endpoint takes in string values
         params: param
     }
     const response = await axios.get(`${api_url}/${endpoint}`,config)
-    return response
+    return response.data
 }
 
 app.use(express.static("public"))
@@ -24,8 +24,9 @@ app.use(express.urlencoded({extended:true}))
 
 app.get('/', async (req,res) => {
     try {
-        const apiAuth = await tmdbAPI("authentication")
-        res.render('index.ejs',{response:apiAuth.data.success})
+        const apiResponse = await tmdbAPI("discover/movie")
+        console.log(apiResponse.results)
+        res.render('index.ejs',{response:apiResponse.results})
     } catch (error) {
         res.status(500).send("TMDB request faild")
     }

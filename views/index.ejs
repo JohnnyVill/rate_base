@@ -1,2 +1,8 @@
 <h1>HELLO</h1>
-<%=response%>
+<%if(locals.response){%>
+    <ul>
+    <%response.forEach(element => {%>
+        <li><%=element.original_title%></li>
+    <% });%>
+    </ul>
+<%}%>  
