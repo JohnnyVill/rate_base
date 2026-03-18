@@ -1,0 +1,36 @@
+import express from "express";
+import bodyParser from "body-parser";
+import pg from "pg";
+import axios from "axios"
+import dotenv from "dotenv/config"
+
+const app = express();
+const port = 3000;
+
+async function tmdbAPI(endpoint,param = {}){ //endpoint takes in string values
+    const api_url = "https://api.themoviedb.org/3"
+    const config  = {
+        headers:{
+            Authorization: `Bearer ${process.env.TMDB_BEARER_TOKEN}`
+        },
+        params: param
+    }
+    const response = await axios.get(`${api_url}/${endpoint}`,config)
+    return response
+}
+
+app.use(express.static("public"))
+app.use(express.urlencoded({extended:true}))
+
+app.get('/', async (req,res) => {
+    try {
+        const apiAuth = await tmdbAPI("authentication")
+        res.render('index.ejs',{response:apiAuth.data.success})
+    } catch (error) {
+        res.status(500).send("TMDB request faild")
+    }
+})
+
+app.listen(port, (req,res) =>{
+    console.log(`listening on ${port}`)
+})
