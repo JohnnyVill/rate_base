@@ -1,8 +1,35 @@
-<h1>HELLO</h1>
-<%if(locals.response){%>
-    <ul>
-    <%response.forEach(element => {%>
-        <li><%=element.original_title%></li>
-    <% });%>
-    </ul>
-<%}%>  
+<%-include("partials/header.ejs")%>
+<section>
+    <div class="column">
+        <%response.forEach(movie => { %>
+            <%if(movie.original_language ==='en'){%>
+                <%const percent = Math.round(movie.vote_average * 10)%>
+                <%let ratingColor = ""%>
+                <%if(percent >=70){%>
+                    <%ratingColor = "#90be6d"%>
+                <%}else if(percent <= 69 && percent >=50){%>
+                    <%ratingColor = "#f9c74f"%>
+                <%}else{%>
+                    <%ratingColor = "#f9844a"%>
+                <%}%>
+                <div class="card_style">
+                    <div class="image">
+                        <img 
+                            src="<%= movie.poster_path ? `https://image.tmdb.org/t/p/w200${movie.poster_path}` : '/images/no-poster.png' %>" 
+                            alt="<%= movie.original_title %> poster"
+                        >
+                    </div>
+                    <div class="content">
+                        <div class="rating" style="--percent: <%=percent%>; --color: <%=ratingColor%>;">
+                            <span><%=percent%><sup>%</sup></span>
+                        </div>
+                        <div class="title"><%=movie.original_title%></div>
+                        <div class="vote_count"><i>Rating Count: </i><%=movie.vote_count%></div>
+                        <div class="release"><%=movie.release_date%></div>
+                    </div>
+                </div>
+            <%}%>
+        <%})%>
+
+    </div>
+</section>

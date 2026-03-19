@@ -7,6 +7,9 @@ import dotenv from "dotenv/config"
 const app = express();
 const port = 3000;
 
+app.use(express.urlencoded({extended:true}))
+app.use(express.static("public"))
+
 async function tmdbAPI(endpoint,param = {}){ //endpoint takes in string values
     const api_url = "https://api.themoviedb.org/3"
     const config  = {
@@ -18,9 +21,6 @@ async function tmdbAPI(endpoint,param = {}){ //endpoint takes in string values
     const response = await axios.get(`${api_url}/${endpoint}`,config)
     return response.data
 }
-
-app.use(express.static("public"))
-app.use(express.urlencoded({extended:true}))
 
 app.get('/', async (req,res) => {
     try {
