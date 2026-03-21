@@ -1,0 +1,47 @@
+<%- include("partials/header.ejs") %>
+
+<section>
+    <div class="movie_detail">
+     <% const movieID = response.id %>
+     <% const title = response.title %>
+     <% const runtime = response.runtime %>
+     <% const release = response.release_date %>
+     <% const language = response.original_language %>
+     <% const poster = response.backdrop_path %>
+     <% const overview = response.overview %>
+        <div class="movie_top">
+            <div class="banner">
+                <img 
+                src="<%=poster ? `https://image.tmdb.org/t/p/w500/${poster}` : `/images/no-poster.png` %>" 
+                alt="<%=title%> poster"
+                >
+            </div>
+            <div class="description">
+                <h1><%=title%></h1>
+                <div class="meta">
+                    <span><strong>Runtime: </strong><%=runtime%>m</span>
+                    <span><strong>Release: </strong><%=release%></span>
+                    <span><strong>Language: </strong><%=language%></span>
+                </div>
+                <p><%=overview%></p>
+            </div>
+        </div>
+        <div class="comments_section">
+            <h2>User Comments</h2>
+            <div class="meta_comments">
+                <% if(locals.userMetaData){%>
+                    <p class="comment"><%=userMetaData.notes%></p>
+                    <p class="date"><%=userMetaData.created_at%></p>
+                <%} else{%>
+                    <p>No comments made yet...</p>
+                <%}%>
+
+            </div>
+            <form action="/comments" method="post">
+                <input type="hidden" name="movieId" value="<%=movieID%>">
+                <input type="text" name="comment" placeholder="Write a comment" autocomplete="off" autofocus="true">
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+</section>

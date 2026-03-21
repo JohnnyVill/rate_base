@@ -12,24 +12,33 @@
                 <%}else{%>
                     <%ratingColor = "#f9844a"%>
                 <%}%>
-                <div class="card_style">
-                    <div class="image">
-                        <img 
-                            src="<%= movie.poster_path ? `https://image.tmdb.org/t/p/w200${movie.poster_path}` : '/images/no-poster.png' %>" 
-                            alt="<%= movie.original_title %> poster"
-                        >
-                    </div>
-                    <div class="content">
-                        <div class="rating" style="--percent: <%=percent%>; --color: <%=ratingColor%>;">
-                            <span><%=percent%><sup>%</sup></span>
+                <form class ="picked" action="/about" method="post">
+                    <input type="hidden" name="movieId" value="<%=movie.id%>">
+                    <input type="hidden" name="movieTitle" value="<%=movie.title%>">
+                    <input type="hidden" name="movieOverview" value="<%=movie.overview%>">
+                    <input type="hidden" name="movieImage" value="<%=movie.poster_path%>">
+                    <input type="hidden" name="movieRelease" value="<%=movie.release_date%>">
+                    <input type="hidden" name="movieRating" value="<%=movie.vote_average%>">
+                    <button type="submit" class="movie_button">
+                    <div id = "movie<%=movie.original_title%>" class="card_style">
+                        <div class="image">
+                            <img 
+                                src="<%= movie.poster_path ? `https://image.tmdb.org/t/p/w200${movie.poster_path}` : '/images/no-poster.png' %>" 
+                                alt="<%= movie.original_title %> poster"
+                            >
                         </div>
-                        <div class="title"><%=movie.original_title%></div>
-                        <div class="vote_count"><i>Rating Count: </i><%=movie.vote_count%></div>
-                        <div class="release"><%=movie.release_date%></div>
+                        <div class="content">
+                            <div class="rating" style="--percent: <%=percent%>; --color: <%=ratingColor%>;">
+                                <span><%=percent%><sup>%</sup></span>
+                            </div>
+                            <div class="title"><%=movie.original_title%></div>
+                            <div class="vote_count"><i>Rating Count: </i><%=movie.vote_count%></div>
+                            <div class="release"><%=movie.release_date%></div>
+                        </div>
                     </div>
-                </div>
+
+                </form>
             <%}%>
         <%})%>
-
     </div>
 </section>
